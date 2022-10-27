@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-
-import classes from "./App.css";
+import classes from "./App.module.css";
 import Person from "./Person/Person";
+import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 
 class App extends Component {
   state = {
@@ -41,41 +41,28 @@ class App extends Component {
     this.setState({ showPersons: !doesShow });
   };
   render() {
-    // const style = {
-    //   backgroundColor: "green",
-    //   font: "inherit",
-    //   border: "1x solid blue",
-    //   padding: "8px",
-    //   cursor: "pointer",
-    //   hover:{
-    //     backgroundColor:'lightgreen',
-    //     color:'black'
-    //   }
-    // };
-
     let persons = null;
+    let btnClass = "";
 
     if (this.state.showPersons) {
       persons = (
         <div>
           {this.state.persons.map((person, index) => {
             return (
-              <Person
-                click={() => this.deletePersonHandler(index)}
-                name={person.name}
-                age={person.age}
-                key={person.id}
-                changed={(event) => this.nameChangedHandler(event, person.id)}
-              />
+              <ErrorBoundary>
+                <Person
+                  click={() => this.deletePersonHandler(index)}
+                  name={person.name}
+                  age={person.age}
+                  key={person.id}
+                  changed={(event) => this.nameChangedHandler(event, person.id)}
+                />
+              </ErrorBoundary>
             );
           })}
         </div>
       );
-      // style.backgroundColor = "red";
-      // style.hover = {
-      //   backgroundColor: "salmon",
-      //   color: "black",
-      // };
+      btnClass = classes.Red;
     }
 
     let assignedClasses = [];
@@ -90,7 +77,7 @@ class App extends Component {
       <div className={classes.App}>
         <h1> Hi hi hi</h1>
         <p className={assignedClasses.join("")}> It is working!!!!!!!</p>
-        <button className={classes.Button} onClick={this.togglePersonsHandler}>
+        <button className={btnClass} onClick={this.togglePersonsHandler}>
           Toggle Person
         </button>
 
